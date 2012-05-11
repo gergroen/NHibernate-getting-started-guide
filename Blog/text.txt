@@ -1,0 +1,394 @@
+This "NHibernate: Getting started guide" post is based on the "Your first NHibernate based application" post on&nbsp;<a href="http://nhforge.org/" target="_blank">NHibernate Forge</a>&nbsp;but i used NuGet to download NHibernate, NHibernate mapping by code and SQLite as database.<br />
+Source: <a href="https://github.com/gergroen/NHibernate-getting-started-guide">https://github.com/gergroen/NHibernate-getting-started-guide</a>
+<br />
+<br />
+<b>Summary:</b><br />
+&nbsp;- Get NHibernate<br />
+&nbsp;- Get SQLite<br />
+&nbsp;- Create a domain model<br />
+&nbsp;- Create&nbsp;NHibernate&nbsp;mapping<br />
+&nbsp;- Configure&nbsp;NHibernate and SQLite<br />
+&nbsp;- Get NUnit<br />
+&nbsp;- Create and test a NHibernate helper<br />
+&nbsp;- Create and test a repository<br />
+<br />
+<b>Get NHibernate</b><br />
+Install "<i>NuGet Package Manager</i>" with the "<i>Extension Manager</i>" of Visual Studio.<br />
+Right mouse click on your project and choose "<i>Manage NuGet Packges...</i>"<br />
+<a href="http://3.bp.blogspot.com/-Cym7kyJW2iQ/TrVSVDqusDI/AAAAAAAACwQ/kDmJN7Pi0Zo/s1600/NuGet.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="318" src="http://3.bp.blogspot.com/-Cym7kyJW2iQ/TrVSVDqusDI/AAAAAAAACwQ/kDmJN7Pi0Zo/s320/NuGet.png" width="320" /></a><br />
+Search for "<i>NHibernate</i>" and click on Install.<br />
+<a href="http://2.bp.blogspot.com/-QP0q19QPGEg/TrVUAC00WNI/AAAAAAAACwY/GPxsx4zDcEk/s1600/NuGetNHibernate.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="387" src="http://2.bp.blogspot.com/-QP0q19QPGEg/TrVUAC00WNI/AAAAAAAACwY/GPxsx4zDcEk/s640/NuGetNHibernate.png" width="640" /></a><br />
+Two references are added to your project "<i>NHibernate</i>" and "<i>Iesi.Collections</i>".&nbsp;"<i>Iesi.Collections</i>"&nbsp;is added because&nbsp;"<i>NHibernate</i>"&nbsp;has a dependency on&nbsp;"<i>Iesi.Collections</i>".<br />
+<br />
+<b>Get SQLite</b><br />
+Start the&nbsp;"<i>NuGet Package Manager</i>"&nbsp;again and search for "<i>System.Data.SQLite</i>".<br />
+You can choose between (x86) and (x64). Choose the one you prefer.<br />
+I have chosen for the&nbsp;(x86). Don't forget to change the platform target of your project to (x86).<br />
+<br />
+<b>Create a domain model</b><br />
+Now you can create a model class.<br />
+<pre class="prettyprint">using System;
+
+namespace NHibernate.GettingStarted.Model
+{
+    public class Person
+    {
+        public virtual Guid Id { get; set; }
+        public virtual string FirstName { get; set; }
+        public virtual string LastName { get; set; }
+    }
+}
+</pre>
+<br />
+<b>Create NHibernate mapping</b><br />
+You can create the NHibernate mapping for your domain models in diffent ways. In this example i use NHibernate mapping by code.<br />
+<pre class="prettyprint">using NHibernate.GettingStarted.Model;
+using NHibernate.Mapping.ByCode;
+using NHibernate.Mapping.ByCode.Conformist;
+
+namespace NHibernate.GettingStarted.Dao
+{
+    public class PersonMap : ClassMapping&lt;Person&gt;
+    {
+        public PersonMap()
+        {
+            Id(x =&gt; x.Id, m =&gt; m.Generator(Generators.GuidComb));
+            Property(x =&gt; x.FirstName);
+            Property(x =&gt; x.LastName);
+        }
+    }
+}
+</pre>
+<br />
+<b>Configure NHibernate and SQLite</b><br />
+To configure NHibernate we need to create a "nhibernate.cfg.xml" file and set the Copy to Output Directory to "Copy Always".
+<pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;hibernate-configuration xmlns="urn:nhibernate-configuration-2.2"&gt;
+&nbsp; &lt;session-factory name="NHibernate.Test"&gt;
+&nbsp; &nbsp; &lt;property name="connection.driver_class"&gt;NHibernate.Driver.SQLite20Driver&lt;/property&gt;
+&nbsp; &nbsp; &lt;property name="connection.connection_string"&gt;Data Source=test.db;Version=3;New=True&lt;/property&gt;
+&nbsp; &nbsp; &lt;property name="dialect"&gt;NHibernate.Dialect.SQLiteDialect&lt;/property&gt;
+&nbsp; &nbsp; &lt;property name="show_sql"&gt;true&lt;/property&gt;
+&nbsp; &lt;/session-factory&gt;
+&lt;/hibernate-configuration&gt;
+</pre>
+<b>Get NUnit</b><br />
+Start the "NuGet Package Manager" again, search for "NUnit" and click on install.<br />
+To run the tests in visual studio you can install <a href="http://www.testdriven.net/" target="_blank">Testdriven.net</a>.<br />
+<br />
+<b>Create and test a NHibernate helper</b><br />
+Now we create a NHibernate helper class to load the configuration and the mapping to create sessions.<br />
+<pre class="prettyprint">using System.Collections.Generic;
+using NHibernate.Cfg;
+using NHibernate.Cfg.MappingSchema;
+using NHibernate.Mapping.ByCode;
+
+namespace NHibernate.GettingStarted.Dao
+{
+    public static class NHibernateHelper
+    {
+        private static ISessionFactory _sessionFactory;
+        private static Configuration _configuration;
+        private static HbmMapping _mapping;
+
+        public static ISession OpenSession()
+        {
+            return SessionFactory.OpenSession();
+        }
+
+        public static ISessionFactory SessionFactory
+        {
+            get
+            {
+                if (_sessionFactory == null)
+                {
+                    _sessionFactory = Configuration.BuildSessionFactory();
+                }
+                return _sessionFactory;
+            }
+        }
+
+        public static Configuration Configuration
+        {
+            get
+            {
+                if (_configuration == null)
+                {
+                    _configuration = CreateConfiguration();
+                }
+                return _configuration;
+            }
+        }
+
+        public static HbmMapping Mapping
+        {
+            get
+            {
+                if (_mapping == null)
+                {
+                    _mapping = CreateMapping();
+                }
+                return _mapping;
+            }
+        }
+
+        private static Configuration CreateConfiguration()
+        {
+            var configuration = new Configuration();
+            configuration.Configure();
+            configuration.AddDeserializedMapping(Mapping, null);
+
+            return configuration;
+        }
+
+        private static HbmMapping CreateMapping()
+        {
+            var mapper = new ModelMapper();
+            mapper.AddMappings(new List&lt;System.Type&gt; { typeof(PersonMap) });
+
+            return mapper.CompileMappingForAllExplicitlyAddedEntities();
+        }
+    }
+}</pre>
+<br />
+NHibernate mapping test<br />
+<pre class="prettyprint">using System;
+using System.Xml.Serialization;
+using NHibernate.Tool.hbm2ddl;
+using NUnit.Framework;
+
+namespace NHibernate.GettingStarted.Dao.Test
+{
+    [TestFixture]
+    public class NHibernateMappingTest
+    {
+        [Test]
+        public void CanGenerateXmlMapping()
+        {
+            var mapping = NHibernateHelper.Mapping;
+            var xmlSerializer = new XmlSerializer(mapping.GetType());
+ 
+            xmlSerializer.Serialize(Console.Out, mapping);
+        }
+    }
+}
+
+</pre>
+Test output:
+<br />
+<pre style="overflow: auto;">&lt;?xml version="1.0" encoding="Windows-1252"?&gt; 
+&lt;hibernate-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema" namespace="NHibernate.GettingStarted.Model" assembly="NHibernate.GettingStarted" xmlns="urn:nhibernate-mapping-2.2"&gt;
+  &lt;class name="Person"&gt;
+    &lt;id name="Id" type="Guid"&gt;
+      &lt;generator class="guid.comb" /&gt;
+    &lt;/id&gt;
+    &lt;property name="FirstName" /&gt;
+    &lt;property name="LastName" /&gt;
+  &lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+</pre>
+Database schema test<br />
+<pre class="prettyprint">using System;
+using NHibernate.Tool.hbm2ddl;
+using NUnit.Framework;
+
+namespace NHibernate.GettingStarted.Dao.Test
+{
+    [TestFixture]
+    public class SchemaTest
+    {
+        [Test]
+        public void CanGenerateSchema()
+        {
+            var schemaUpdate = new SchemaUpdate(NHibernateHelper.Configuration);
+            schemaUpdate.Execute(Console.WriteLine, true);
+        }
+    }
+}
+</pre>
+Test output:
+<br />
+<pre>create table Person (
+  Id UNIQUEIDENTIFIER not null,
+  FirstName TEXT,
+  LastName TEXT,
+  primary key (Id)
+)
+</pre>
+<b>Create and test a Repository</b><br />
+Repository interface
+<br />
+<pre class="prettyprint">using System;
+
+namespace NHibernate.GettingStarted.Model
+{
+    public interface IPersonRepository
+    {
+        /// &lt;summary&gt;
+        /// Get person entity by id
+        /// &lt;/summary&gt;
+        /// &lt;param name="id"&gt;id&lt;/param&gt;
+        /// &lt;returns&gt;person&lt;/returns&gt;
+        Person Get(Guid id);
+
+        /// &lt;summary&gt;
+        /// Save person entity
+        /// &lt;/summary&gt;
+        /// &lt;param name="person"&gt;person&lt;/param&gt;
+        void Save(Person person);
+        
+        /// &lt;summary&gt;
+        /// Update person entity
+        /// &lt;/summary&gt;
+        /// &lt;param name="person"&gt;person&lt;/param&gt;
+        void Update(Person person);
+
+        /// &lt;summary&gt;
+        /// Delete person entity
+        /// &lt;/summary&gt;
+        /// &lt;param name="person"&gt;person&lt;/param&gt;
+        void Delete(Person person);
+
+        /// &lt;summary&gt;
+        /// Row count person in db
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;number of rows&lt;/returns&gt;
+        long RowCount();
+    }
+}
+</pre>
+Repository class
+<br />
+<pre class="prettyprint">using System;
+using NHibernate.GettingStarted.Model;
+
+namespace NHibernate.GettingStarted.Dao
+{
+    public class NHibernatePersonRepository : IPersonRepository
+    {
+        public void Save(Person person)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            using (ITransaction transaction = session.BeginTransaction())
+            {
+                session.Save(person);
+                transaction.Commit();
+            }
+        }
+
+        public Person Get(Guid id)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+                return session.Get&lt;Person&gt;(id);
+        }
+
+        public void Update(Person person)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            using (ITransaction transaction = session.BeginTransaction())
+            {
+                session.Update(person);
+                transaction.Commit();
+            }
+        }
+
+        public void Delete(Person person)
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            using (ITransaction transaction = session.BeginTransaction())
+            {
+                session.Delete(person);
+                transaction.Commit();
+            }
+        }
+
+        public long RowCount()
+        {
+            using (ISession session = NHibernateHelper.OpenSession())
+            {
+                return session.QueryOver&lt;Person&gt;().RowCountInt64();
+            }
+        }
+    }
+}
+</pre>
+Repository test
+<br />
+<pre class="prettyprint">using System.IO;
+using NHibernate.GettingStarted.Model;
+using NHibernate.Tool.hbm2ddl;
+using NUnit.Framework;
+
+namespace NHibernate.GettingStarted.Dao.Test
+{
+    [TestFixture]
+    public class NHibernatePersonRepositoryTest
+    {
+        private IPersonRepository _personRepo;
+
+        [SetUp]
+        public void CreateSchema()
+        {
+            DeleteDatabaseIfExists();
+
+            var schemaUpdate = new SchemaUpdate(NHibernateHelper.Configuration);
+            schemaUpdate.Execute(false, true);
+
+            _personRepo = new NHibernatePersonRepository();
+        }
+
+        [Test]
+        public void CanSavePerson()
+        {
+            _personRepo.Save(new Person());
+            Assert.AreEqual(1, _personRepo.RowCount());
+        }
+
+        [Test]
+        public void CanGetPerson()
+        {
+            var person = new Person();
+            _personRepo.Save(person);
+            Assert.AreEqual(1, _personRepo.RowCount());
+
+            person = _personRepo.Get(person.Id);
+            Assert.IsNotNull(person);
+        }
+
+        [Test]
+        public void CanUpdatePerson()
+        {
+            var person = new Person();
+            _personRepo.Save(person);
+            Assert.AreEqual(1, _personRepo.RowCount());
+
+            person = _personRepo.Get(person.Id);
+            person.FirstName = "Test";
+            _personRepo.Update(person);
+
+            Assert.AreEqual(1, _personRepo.RowCount());
+            Assert.AreEqual("Test", _personRepo.Get(person.Id).FirstName);
+        }
+
+        [Test]
+        public void CanDeletePerson()
+        {
+            var person = new Person();
+            _personRepo.Save(person);
+            Assert.AreEqual(1, _personRepo.RowCount());
+
+            _personRepo.Delete(person);
+            Assert.AreEqual(0, _personRepo.RowCount());
+        }
+
+        [TearDown]
+        public void DeleteDatabaseIfExists()
+        {
+            if (File.Exists("test.db"))
+                File.Delete("test.db");
+        }
+    }
+}
+</pre>
+<b>Useful links:</b><br />
+<a href="http://nhforge.org/doc/nh/en/index.html" target="_blank">NHibernate documentation&nbsp;</a>

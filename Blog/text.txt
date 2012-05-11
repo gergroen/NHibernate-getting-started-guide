@@ -15,9 +15,9 @@ Source: <a href="https://github.com/gergroen/NHibernate-getting-started-guide">h
 <b>Get NHibernate</b><br />
 Install "<i>NuGet Package Manager</i>" with the "<i>Extension Manager</i>" of Visual Studio.<br />
 Right mouse click on your project and choose "<i>Manage NuGet Packges...</i>"<br />
-<a href="http://3.bp.blogspot.com/-Cym7kyJW2iQ/TrVSVDqusDI/AAAAAAAACwQ/kDmJN7Pi0Zo/s1600/NuGet.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="318" src="http://3.bp.blogspot.com/-Cym7kyJW2iQ/TrVSVDqusDI/AAAAAAAACwQ/kDmJN7Pi0Zo/s320/NuGet.png" width="320" /></a><br />
+<img border="0" height="318" src="https://github.com/gergroen/NHibernate-getting-started-guide/raw/master/Blog/Screenshots/NuGet.png" width="320" /><br />
 Search for "<i>NHibernate</i>" and click on Install.<br />
-<a href="http://2.bp.blogspot.com/-QP0q19QPGEg/TrVUAC00WNI/AAAAAAAACwY/GPxsx4zDcEk/s1600/NuGetNHibernate.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="387" src="http://2.bp.blogspot.com/-QP0q19QPGEg/TrVUAC00WNI/AAAAAAAACwY/GPxsx4zDcEk/s640/NuGetNHibernate.png" width="640" /></a><br />
+<img border="0" height="387" src="https://github.com/gergroen/NHibernate-getting-started-guide/raw/master/Blog/Screenshots/NuGetNHibernate.png" width="640" /><br />
 Two references are added to your project "<i>NHibernate</i>" and "<i>Iesi.Collections</i>".&nbsp;"<i>Iesi.Collections</i>"&nbsp;is added because&nbsp;"<i>NHibernate</i>"&nbsp;has a dependency on&nbsp;"<i>Iesi.Collections</i>".<br />
 <br />
 <b>Get SQLite</b><br />

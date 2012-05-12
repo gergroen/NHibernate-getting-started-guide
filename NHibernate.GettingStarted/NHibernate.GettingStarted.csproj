@@ -78,6 +78,7 @@
     <Compile Include="Model\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test\NHibernateHelperTest.cs" />
+    <Compile Include="Test\PersonMapTest.cs" />
     <Compile Include="Test\PersonTest.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

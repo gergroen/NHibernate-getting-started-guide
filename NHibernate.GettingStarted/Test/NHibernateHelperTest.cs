@@ -10,15 +10,6 @@ namespace NHibernate.GettingStarted.Test
     public class NHibernateMappingTest
     {
         [Test]
-        public void CanGenerateXmlMapping()
-        {
-            var mapping = NHibernateHelper.Mapping;
-            var xmlSerializer = new XmlSerializer(mapping.GetType());
- 
-            xmlSerializer.Serialize(Console.Out, mapping);
-        }
-
-        [Test]
         public void CanGenerateSchema()
         {
             var schemaUpdate = new SchemaUpdate(NHibernateHelper.Configuration);

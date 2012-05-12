@@ -20,7 +20,7 @@ You can find the source code of this post on: <a href="https://github.com/gergro
 &nbsp;- Get SQLite via NuGet<br />
 &nbsp;- Get NUnit via NuGet<br />
 &nbsp;- Create and test a domain model<br />
-&nbsp;- Create NHibernate mapping by code<br />
+&nbsp;- Create and test NHibernate mapping by code<br />
 &nbsp;- Configure NHibernate for SQLite<br />
 &nbsp;- Create and test a NHibernate helper<br />
 &nbsp;- Create and test a repository<br />
@@ -86,7 +86,7 @@ namespace NHibernate.GettingStarted.Test
 }
 </pre>
 <br />
-<b>Create NHibernate mapping by code</b><br />
+<b>Create and test NHibernate mapping by code</b><br />
 You can create the NHibernate mapping for your domain models in diffent ways. In this example i use NHibernate mapping by code.<br />
 <pre class="prettyprint">using NHibernate.GettingStarted.Model;
 using NHibernate.Mapping.ByCode;
@@ -104,6 +104,46 @@ namespace NHibernate.GettingStarted.Dao
         }
     }
 }
+</pre>
+<br />
+Unit test NHibernate mapping by code.
+<pre class="prettyprint">using System;
+using System.Xml.Serialization;
+using NHibernate.GettingStarted.Dao;
+using NHibernate.Mapping.ByCode;
+using NUnit.Framework;
+
+namespace NHibernate.GettingStarted.Test
+{
+    [TestFixture]
+    public class PersonMapTest
+    {
+        [Test]
+        public void CanGenerateXmlMapping()
+        {
+            var mapper = new ModelMapper();
+            mapper.AddMapping<PersonMap>();
+
+            var mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
+            var xmlSerializer = new XmlSerializer(mapping.GetType());
+ 
+            xmlSerializer.Serialize(Console.Out, mapping);
+        }
+    }
+}
+</pre>
+<br />
+Test output:
+<pre style="overflow: auto;">&lt;?xml version="1.0" encoding="Windows-1252"?&gt; 
+&lt;hibernate-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema" namespace="NHibernate.GettingStarted.Model" assembly="NHibernate.GettingStarted" xmlns="urn:nhibernate-mapping-2.2"&gt;
+  &lt;class name="Person"&gt;
+    &lt;id name="Id" type="Guid"&gt;
+      &lt;generator class="guid.comb" /&gt;
+    &lt;/id&gt;
+    &lt;property name="FirstName" /&gt;
+    &lt;property name="LastName" /&gt;
+  &lt;/class&gt;
+&lt;/hibernate-mapping&gt;
 </pre>
 <br />
 <b>Configure NHibernate for SQLite</b><br />
@@ -193,42 +233,6 @@ namespace NHibernate.GettingStarted.Dao
     }
 }</pre>
 <br />
-NHibernate mapping test<br />
-<pre class="prettyprint">using System;
-using System.Xml.Serialization;
-using NHibernate.Tool.hbm2ddl;
-using NUnit.Framework;
-
-namespace NHibernate.GettingStarted.Dao.Test
-{
-    [TestFixture]
-    public class NHibernateMappingTest
-    {
-        [Test]
-        public void CanGenerateXmlMapping()
-        {
-            var mapping = NHibernateHelper.Mapping;
-            var xmlSerializer = new XmlSerializer(mapping.GetType());
- 
-            xmlSerializer.Serialize(Console.Out, mapping);
-        }
-    }
-}
-
-</pre>
-Test output:
-<br />
-<pre style="overflow: auto;">&lt;?xml version="1.0" encoding="Windows-1252"?&gt; 
-&lt;hibernate-mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xmlns:xsd="http://www.w3.org/2001/XMLSchema" namespace="NHibernate.GettingStarted.Model" assembly="NHibernate.GettingStarted" xmlns="urn:nhibernate-mapping-2.2"&gt;
-  &lt;class name="Person"&gt;
-    &lt;id name="Id" type="Guid"&gt;
-      &lt;generator class="guid.comb" /&gt;
-    &lt;/id&gt;
-    &lt;property name="FirstName" /&gt;
-    &lt;property name="LastName" /&gt;
-  &lt;/class&gt;
-&lt;/hibernate-mapping&gt;
-</pre>
 Database schema test<br />
 <pre class="prettyprint">using System;
 using NHibernate.Tool.hbm2ddl;

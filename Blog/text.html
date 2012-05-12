@@ -7,7 +7,8 @@ But this post will explain how to use NHibernate with:<br />
 <br />
 <b>Used techniques and design patterns</b><br />
 &nbsp;- NHibernate Mapping by code<br />
-&nbsp;- <a href="http://martinfowler.com/eaaCatalog/repository.html">Repository pattern</a><br />
+&nbsp;- <a href="http://martinfowler.com/eaaCatalog/repository.html">Repository</a><br />
+&nbsp;- <a href="http://martinfowler.com/eaaCatalog/domainModel.html">Domain Model</a><br />
 &nbsp;- <a href="http://en.wikipedia.org/wiki/Unit_testing">Unit testing</a><br />
 <br />
 <b>Source code</b><br />
@@ -17,10 +18,10 @@ You can find the source code of this post on: <a href="https://github.com/gergro
 <b>Post summary:</b><br />
 &nbsp;- Get NHibernate via NuGet<br />
 &nbsp;- Get SQLite via NuGet<br />
-&nbsp;- Create a domain model<br />
+&nbsp;- Get NUnit via NuGet<br />
+&nbsp;- Create and test a domain model<br />
 &nbsp;- Create NHibernate mapping by code<br />
 &nbsp;- Configure NHibernate for SQLite<br />
-&nbsp;- Get NUnit via NuGet<br />
 &nbsp;- Create and test a NHibernate helper<br />
 &nbsp;- Create and test a repository<br />
 <br />
@@ -38,7 +39,11 @@ Start the&nbsp;"<i>NuGet Package Manager</i>"&nbsp;again and search for "<i>Syst
 You can choose between (x86) and (x64). Choose the one you prefer.<br />
 I have chosen for the&nbsp;(x86). Don't forget to change the platform target of your project to (x86).<br />
 <br />
-<b>Create a domain model</b><br />
+<b>Get NUnit via NuGet</b><br />
+Start the "NuGet Package Manager" again, search for "NUnit" and click on install.<br />
+To run the tests in visual studio you can install <a href="http://www.testdriven.net/" target="_blank">Testdriven.net</a>.<br />
+<br />
+<b>Create and test a domain model</b><br />
 Now you can create a model class.<br />
 <pre class="prettyprint">using System;
 
@@ -49,6 +54,34 @@ namespace NHibernate.GettingStarted.Model
         public virtual Guid Id { get; set; }
         public virtual string FirstName { get; set; }
         public virtual string LastName { get; set; }
+    }
+	
+    public virtual string GetFullName()
+    {
+        return string.Format("{0} {1}", FirstName, LastName);
+    }
+}
+</pre>
+<br />
+Unit test person domain model.
+<pre class="prettyprint">using NHibernate.GettingStarted.Model;
+using NUnit.Framework;
+
+namespace NHibernate.GettingStarted.Test
+{
+    [TestFixture]
+    public class PersonTest
+    {
+        [Test]
+        public void GetFullNameTest()
+        {
+            var person = new Person
+                             {
+                                 FirstName = "Test",
+                                 LastName = "Kees"
+                             };
+            Assert.AreEqual("Test Kees", person.GetFullName());
+        }
     }
 }
 </pre>
@@ -85,10 +118,6 @@ To configure NHibernate we need to create a "nhibernate.cfg.xml" file and set th
 &nbsp; &lt;/session-factory&gt;
 &lt;/hibernate-configuration&gt;
 </pre>
-<b>Get NUnit via NuGet</b><br />
-Start the "NuGet Package Manager" again, search for "NUnit" and click on install.<br />
-To run the tests in visual studio you can install <a href="http://www.testdriven.net/" target="_blank">Testdriven.net</a>.<br />
-<br />
 <b>Create and test a NHibernate helper</b><br />
 Now we create a NHibernate helper class to load the configuration and the mapping to create sessions.<br />
 <pre class="prettyprint">using System.Collections.Generic;

@@ -1,9 +1,10 @@
 ﻿using System.IO;
+using NHibernate.GettingStarted.Dao;
 using NHibernate.GettingStarted.Model;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
 
-namespace NHibernate.GettingStarted.Dao.Test
+namespace NHibernate.GettingStarted.Test
 {
     [TestFixture]
     public class NHibernatePersonRepositoryTest

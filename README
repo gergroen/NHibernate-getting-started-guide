@@ -1,1 +1,12 @@
 This project is the source code of blog post http://gergroen.blogspot.com/2011/11/nhibernate-getting-started-guide.html
+
+Used frameworks
+ - NuGet
+ - NUnit
+ - SQLite
+
+Used techniques and design patterns
+ - NHibernate Mapping by code
+ - Repository
+ - Domain Model
+ - Unit testing

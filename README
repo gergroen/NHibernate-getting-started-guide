@@ -1,6 +1,6 @@
 This project is the source code of blog post http://gergroen.blogspot.com/2011/11/nhibernate-getting-started-guide.html
 
-Used frameworks
+How to use NHibernate with:
  - NuGet
  - NUnit
  - SQLite

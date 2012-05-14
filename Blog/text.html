@@ -1,29 +1,34 @@
 <b>Introduction</b><br />
-This "NHibernate: Getting started guide" post is based on the "Your first NHibernate based application" post on&nbsp;<a href="http://nhforge.org/" target="_blank">NHibernate Forge</a>.<br />
-But this post will explain how to use NHibernate with:<br />
-&nbsp;- <a href="http://nuget.org/">NuGet</a><br />
-&nbsp;- <a href="http://nunit.org/">NUnit</a><br />
-&nbsp;- <a href="http://www.sqlite.org/">SQLite</a><br />
+For people that don't know what NHibernate is. <br />
+<br />
+<i>"NHibernate is a mature, open source object-relational mapper for the .NET framework.<br>
+It's actively developed, fully featured and used in thousands of successful projects.</i>
+<a href="http://nhforge.org/">Source</a><br />
+<br />
+This "NHibernate: Getting started guide" post will explain the basics and how to use NHibernate with:<br />
+<li><a href="http://nuget.org/">NuGet</a></li>
+<li><a href="http://nunit.org/">NUnit</a></li>
+<li><a href="http://www.sqlite.org/">SQLite</a></li>
 <br />
 <b>Used techniques and design patterns</b><br />
-&nbsp;- NHibernate Mapping by code<br />
-&nbsp;- <a href="http://martinfowler.com/eaaCatalog/repository.html">Repository</a><br />
-&nbsp;- <a href="http://martinfowler.com/eaaCatalog/domainModel.html">Domain Model</a><br />
-&nbsp;- <a href="http://en.wikipedia.org/wiki/Unit_testing">Unit testing</a><br />
+<li>NHibernate Mapping by code</li>
+<li><a href="http://martinfowler.com/eaaCatalog/repository.html">Repository</a></li>
+<li><a href="http://martinfowler.com/eaaCatalog/domainModel.html">Domain Model</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Unit_testing">Unit testing</a></li>
 <br />
 <b>Source code</b><br />
 You can find the source code of this post on: <a href="https://github.com/gergroen/NHibernate-getting-started-guide">https://github.com/gergroen/NHibernate-getting-started-guide</a>
 <br />
 <br />
-<b>Post summary:</b><br />
-&nbsp;- Get NHibernate via NuGet<br />
-&nbsp;- Get SQLite via NuGet<br />
-&nbsp;- Get NUnit via NuGet<br />
-&nbsp;- Create and test a domain model<br />
-&nbsp;- Create and test NHibernate mapping by code<br />
-&nbsp;- Configure NHibernate for SQLite<br />
-&nbsp;- Create and test a NHibernate helper<br />
-&nbsp;- Create and test a repository<br />
+<b>Post summary:</b>
+<li>Get NHibernate via NuGet</li>
+<li>Get SQLite via NuGet</li>
+<li>Get NUnit via NuGet</li>
+<li>Create and test a domain model</li>
+<li>Create and test NHibernate mapping by code</li>
+<li>Configure NHibernate for SQLite</li>
+<li>Create and test a NHibernate helper</li>
+<li>Create and test a repository</li>
 <br />
 <b>Get NHibernate via NuGet</b><br />
 First <a href="http://docs.nuget.org/docs/start-here/installing-nuget">install the NuGet Package Manager</a> if it is not installed.<br />
@@ -55,7 +60,7 @@ namespace NHibernate.GettingStarted.Model
         public virtual string FirstName { get; set; }
         public virtual string LastName { get; set; }
     }
-	
+ 
     public virtual string GetFullName()
     {
         return string.Format("{0} {1}", FirstName, LastName);

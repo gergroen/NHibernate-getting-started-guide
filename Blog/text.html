@@ -63,7 +63,7 @@ namespace NHibernate.GettingStarted.Model
 }
 </pre>
 <br />
-Unit test person domain model.
+After creating the domain model you can start unit testing the domain model.
 <pre class="prettyprint">using NHibernate.GettingStarted.Model;
 using NUnit.Framework;
 
@@ -80,10 +80,15 @@ namespace NHibernate.GettingStarted.Test
                                  FirstName = "Test",
                                  LastName = "Kees"
                              };
+
+            Assert.AreEqual("Test", person.FirstName);
+            Assert.AreEqual("Kees", person.LastName);
+
             Assert.AreEqual("Test Kees", person.GetFullName());
         }
     }
 }
+
 </pre>
 <br />
 <b>Create and test NHibernate mapping by code</b><br />

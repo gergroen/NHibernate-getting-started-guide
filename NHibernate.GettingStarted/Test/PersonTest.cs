@@ -14,6 +14,10 @@ namespace NHibernate.GettingStarted.Test
                                  FirstName = "Test",
                                  LastName = "Kees"
                              };
+
+            Assert.AreEqual("Test", person.FirstName);
+            Assert.AreEqual("Kees", person.LastName);
+
             Assert.AreEqual("Test Kees", person.GetFullName());
         }
     }

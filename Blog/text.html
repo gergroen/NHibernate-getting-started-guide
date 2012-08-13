@@ -1,8 +1,8 @@
-<b>Introduction</b><br />
+<h3>Introduction</h3>
 For people that don't know what NHibernate is. <br />
 <br />
 <i>"NHibernate is a mature, open source object-relational mapper for the .NET framework.<br>
-It's actively developed, fully featured and used in thousands of successful projects.</i>
+It's actively developed, fully featured and used in thousands of successful projects."</i>
 <a href="http://nhforge.org/">Source</a><br />
 <br />
 This "NHibernate: Getting started guide" post will explain the basics and how to use NHibernate with:<br />
@@ -10,28 +10,29 @@ This "NHibernate: Getting started guide" post will explain the basics and how to
 <li><a href="http://nunit.org/">NUnit</a></li>
 <li><a href="http://www.sqlite.org/">SQLite</a></li>
 <br />
-<b>Used techniques and design patterns</b><br />
+<h3>Used techniques and design patterns</h3>
 <li>NHibernate Mapping by code</li>
 <li><a href="http://martinfowler.com/eaaCatalog/repository.html">Repository</a></li>
 <li><a href="http://martinfowler.com/eaaCatalog/domainModel.html">Domain Model</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Unit_testing">Unit testing</a></li>
 <br />
-<b>Source code</b><br />
-You can find the source code of this post on: <a href="https://github.com/gergroen/NHibernate-getting-started-guide">https://github.com/gergroen/NHibernate-getting-started-guide</a>
+<h3>Source code</h3>
+You can find the source code of this post on: <a href="https://github.com/gergroen/NHibernate-getting-started-guide">https://github.com/gergroen/NHibernate-getting-started-guide</a><br />
 <br />
+<h3>Post summary</h3>
+<li><a href="#InstallingNuGet">Installing NuGet</a></li>
+<li><a href="#DownloadNHibernateSQLiteAndNUnitWithNuGet">Download NHibernate, SQLite and NUnit with NuGet</a></li>
+<li><a href="#CreateAndTestADomainModel">Create and test a domain model</a></li>
+<li><a href="#CreateAndTestNHibernateMappingByCode">Create and test NHibernate mapping by code</a></li>
+<li><a href="#ConfigureNHibernateForSQLite">Configure NHibernate for SQLite</a></li>
+<li><a href="#CreateAndTestANHibernateHelper">Create and test a NHibernate helper</a></li>
+<li><a href="#CreateAndTestARepository">Create and test a repository</a></li>
 <br />
-<b>Post summary:</b>
-<li>Get NHibernate via NuGet</li>
-<li>Get SQLite via NuGet</li>
-<li>Get NUnit via NuGet</li>
-<li>Create and test a domain model</li>
-<li>Create and test NHibernate mapping by code</li>
-<li>Configure NHibernate for SQLite</li>
-<li>Create and test a NHibernate helper</li>
-<li>Create and test a repository</li>
-<br />
-<b>Get NHibernate via NuGet</b><br />
+<h3><a name="InstallingNuGet"></a>Installing NuGet</h3>
 First <a href="http://docs.nuget.org/docs/start-here/installing-nuget">install the NuGet Package Manager</a> if it is not installed.<br />
+<br />
+<h3><a name="DownloadNHibernateSQLiteAndNUnitWithNuGet"></a>Download NHibernate, SQLite and NUnit with NuGet</h3>
+<b>NHibernate</b><br />
 Now you can open the <i>"NuGet Package Manager"</i> by clicking with the right mouse button on your project and choose "<i>Manage NuGet Packges...</i>"<br />
 <img border="0" height="318" src="https://github.com/gergroen/NHibernate-getting-started-guide/raw/master/Blog/Screenshots/NuGet.png" width="320" /><br />
 Search for "<i>NHibernate</i>" and click on Install.<br />
@@ -39,17 +40,19 @@ Search for "<i>NHibernate</i>" and click on Install.<br />
 Two references are added to your project "<i>NHibernate</i>" and "<i>Iesi.Collections</i>".<br />
 "<i>Iesi.Collections</i>"&nbsp;is added because&nbsp;"<i>NHibernate</i>"&nbsp;has a dependency on&nbsp;"<i>Iesi.Collections</i>".<br />
 <br />
-<b>Get SQLite via NuGet</b><br />
-Start the&nbsp;"<i>NuGet Package Manager</i>"&nbsp;again and search for "<i>System.Data.SQLite</i>".<br />
-You can choose between (x86) and (x64). Choose the one you prefer.<br />
-I have chosen for the&nbsp;(x86). Don't forget to change the platform target of your project to (x86).<br />
+<b>SQLite</b><br />
+Start the&nbsp;"<i>NuGet Package Manager</i>"&nbsp;again, search for "<i>System.Data.SQLite</i>" and click on Install.<br />
 <br />
-<b>Get NUnit via NuGet</b><br />
+<b>NUnit</b><br />
 Start the "NuGet Package Manager" again, search for "NUnit" and click on install.<br />
-To run the tests in visual studio you can install <a href="http://www.testdriven.net/" target="_blank">Testdriven.net</a>.<br />
+To run the unit tests in Visual Studio you can use tools like <a href="http://www.jetbrains.com/resharper/" target="_blank">ReSharper</a> or <a href="http://www.testdriven.net/" target="_blank">Testdriven.net</a>.<br />
+If you don't need to run the unit tests in Visual Studio you can download the "<i>NUnit.Runners</i>" via NuGet.<br />
+"<i>NUnit.Runners</i>" allows you to run the unit tests through the command line or a gui.<br /> 
 <br />
-<b>Create and test a domain model</b><br />
-Now you can create a model class.<br />
+<h3><a name="CreateAndTestADomainModel"></a>Create and test a domain model</h3>
+After downloading all the packages we can start with the domain model.<br />
+First we create a simple "<i>Person</i>" domain model with the properties "<i>Id</i>", "<i>FirstName</i>" and a "<i>LastName</i>".<br />
+Also we include the method "<i>GetFullName();</i>".
 <pre class="prettyprint">using System;
 
 namespace NHibernate.GettingStarted.Model
@@ -68,7 +71,8 @@ namespace NHibernate.GettingStarted.Model
 }
 </pre>
 <br />
-After creating the domain model you can start unit testing the domain model.
+After creating the domain model we create a test class to test the domain model.<br />
+We're using "<i>NUnit</i>" to unit test our domain model.<br />
 <pre class="prettyprint">using NHibernate.GettingStarted.Model;
 using NUnit.Framework;
 
@@ -96,7 +100,7 @@ namespace NHibernate.GettingStarted.Test
 
 </pre>
 <br />
-<b>Create and test NHibernate mapping by code</b><br />
+<h3><a name="CreateAndTestNHibernateMappingByCode"></a>Create and test NHibernate mapping by code</h3>
 You can create the NHibernate mapping for your domain models in diffent ways. In this example i use NHibernate mapping by code.<br />
 <pre class="prettyprint">using NHibernate.GettingStarted.Model;
 using NHibernate.Mapping.ByCode;
@@ -156,7 +160,7 @@ Test output:
 &lt;/hibernate-mapping&gt;
 </pre>
 <br />
-<b>Configure NHibernate for SQLite</b><br />
+<h3><a name="ConfigureNHibernateForSQLite"></a>Configure NHibernate for SQLite</h3>
 To configure NHibernate we need to create a "nhibernate.cfg.xml" file and set the Copy to Output Directory to "Copy Always".
 <pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;hibernate-configuration xmlns="urn:nhibernate-configuration-2.2"&gt;
@@ -168,7 +172,7 @@ To configure NHibernate we need to create a "nhibernate.cfg.xml" file and set th
 &nbsp; &lt;/session-factory&gt;
 &lt;/hibernate-configuration&gt;
 </pre>
-<b>Create and test a NHibernate helper</b><br />
+<h3><a name="CreateAndTestANHibernateHelper"></a>Create and test a NHibernate helper</h3>
 Now we create a NHibernate helper class to load the configuration and the mapping to create sessions.<br />
 <pre class="prettyprint">using System.Collections.Generic;
 using NHibernate.Cfg;
@@ -271,7 +275,7 @@ Test output:
   primary key (Id)
 )
 </pre>
-<b>Create and test a Repository</b><br />
+<h3><a name="CreateAndTestARepository"></a>Create and test a Repository</h3>
 Repository interface
 <br />
 <pre class="prettyprint">using System;
@@ -446,6 +450,6 @@ namespace NHibernate.GettingStarted.Dao.Test
     }
 }
 </pre>
-<b>Useful links:</b><br />
+<h3>Useful links:</h3>
 <a href="https://github.com/gergroen/NHibernate-getting-started-guide">Source code</a><br />
 <a href="http://nhforge.org/doc/nh/en/index.html" target="_blank">NHibernate documentation&nbsp;</a>

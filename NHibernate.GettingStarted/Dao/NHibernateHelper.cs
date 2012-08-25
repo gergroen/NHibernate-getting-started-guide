@@ -13,6 +13,7 @@ namespace NHibernate.GettingStarted.Dao
 
         public static ISession OpenSession()
         {
+            //Open and return the nhibernate session
             return SessionFactory.OpenSession();
         }
 
@@ -22,6 +23,7 @@ namespace NHibernate.GettingStarted.Dao
             {
                 if (_sessionFactory == null)
                 {
+                    //Create the session factory
                     _sessionFactory = Configuration.BuildSessionFactory();
                 }
                 return _sessionFactory;
@@ -34,6 +36,7 @@ namespace NHibernate.GettingStarted.Dao
             {
                 if (_configuration == null)
                 {
+                    //Create the nhibernate configuration
                     _configuration = CreateConfiguration();
                 }
                 return _configuration;
@@ -46,6 +49,7 @@ namespace NHibernate.GettingStarted.Dao
             {
                 if (_mapping == null)
                 {
+                    //Create the mapping
                     _mapping = CreateMapping();
                 }
                 return _mapping;
@@ -55,7 +59,9 @@ namespace NHibernate.GettingStarted.Dao
         private static Configuration CreateConfiguration()
         {
             var configuration = new Configuration();
+            //Loads properties from hibernate.cfg.xml
             configuration.Configure();
+            //Loads nhibernate mappings 
             configuration.AddDeserializedMapping(Mapping, null);
 
             return configuration;
@@ -64,8 +70,9 @@ namespace NHibernate.GettingStarted.Dao
         private static HbmMapping CreateMapping()
         {
             var mapper = new ModelMapper();
+            //Add the person mapping to the model mapper
             mapper.AddMappings(new List<System.Type> { typeof(PersonMap) });
-
+            //Create and return a HbmMapping of the model mapping in code
             return mapper.CompileMappingForAllExplicitlyAddedEntities();
         }
     }

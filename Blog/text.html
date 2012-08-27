@@ -71,7 +71,6 @@ namespace NHibernate.GettingStarted.Model
     }
 }
 </pre>
-<br />
 After creating the domain model we create a test class to test the domain model.<br />
 We're using "<i>NUnit</i>" to unit test our domain model.<br />
 <pre class="prettyprint">using NHibernate.GettingStarted.Model;
@@ -102,7 +101,7 @@ namespace NHibernate.GettingStarted.Test
 </pre>
 <br />
 <h3><a name="CreateAndTestNHibernateMappingByCode"></a>Create and test NHibernate mapping by code</h3>
-You can create the NHibernate mapping for your domain models in diffent ways. In this example i use NHibernate mapping by code.<br />
+You can create the NHibernate mapping for your domain models in different ways. In this example i use NHibernate mapping by code.<br />
 <pre class="prettyprint">using NHibernate.GettingStarted.Model;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
@@ -120,8 +119,8 @@ namespace NHibernate.GettingStarted.Dao
     }
 }
 </pre>
-<br />
-Unit test NHibernate mapping by code.
+To see the result of the mapping we create this unit test.<br />
+The test output is the traditional xml NHibernate mapping.
 <pre class="prettyprint">using System;
 using System.Xml.Serialization;
 using NHibernate.GettingStarted.Dao;
@@ -284,8 +283,8 @@ Test output:
 )
 </pre>
 <h3><a name="CreateAndTestARepository"></a>Create and test a Repository</h3>
-Repository interface
-<br />
+With the NHibernateHelper we can create a person repository to save, get, update and delete persons to the SQLite database.</br>
+First we create a repository interface.<br />
 <pre class="prettyprint">using System;
 
 namespace NHibernate.GettingStarted.Model
@@ -325,6 +324,7 @@ namespace NHibernate.GettingStarted.Model
     }
 }
 </pre>
+
 Repository class
 <br />
 <pre class="prettyprint">using System;

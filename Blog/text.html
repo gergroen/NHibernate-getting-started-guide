@@ -136,7 +136,7 @@ namespace NHibernate.GettingStarted.Test
         public void CanGenerateXmlMapping()
         {
             var mapper = new ModelMapper();
-            mapper.AddMapping<PersonMap>();
+            mapper.AddMapping&lt;PersonMap>();
 
             var mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
             var xmlSerializer = new XmlSerializer(mapping.GetType());
@@ -247,7 +247,7 @@ namespace NHibernate.GettingStarted.Dao
         {
             var mapper = new ModelMapper();
             //Add the person mapping to the model mapper
-            mapper.AddMappings(new List<System.Type> { typeof(PersonMap) });
+            mapper.AddMappings(new List&lt;System.Type> { typeof(PersonMap) });
             //Create and return a HbmMapping of the model mapping in code
             return mapper.CompileMappingForAllExplicitlyAddedEntities();
         }

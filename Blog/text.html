@@ -54,7 +54,7 @@ If you don't need to run the unit tests in Visual Studio you can download the "<
 After downloading all the packages we can start with the domain model.<br />
 First we create a simple "<i>Person</i>" domain model with the properties "<i>Id</i>", "<i>FirstName</i>" and a "<i>LastName</i>".<br />
 Also we include the method "<i>GetFullName();</i>".
-<pre class="prettyprint">using System;
+<pre class="prettyprint lang-cs">using System;
 
 namespace NHibernate.GettingStarted.Model
 {
@@ -73,7 +73,7 @@ namespace NHibernate.GettingStarted.Model
 </pre>
 After creating the domain model we create a test class to test the domain model.<br />
 We're using "<i>NUnit</i>" to unit test our domain model.<br />
-<pre class="prettyprint">using NHibernate.GettingStarted.Model;
+<pre class="prettyprint lang-cs">using NHibernate.GettingStarted.Model;
 using NUnit.Framework;
 
 namespace NHibernate.GettingStarted.Test
@@ -102,7 +102,7 @@ namespace NHibernate.GettingStarted.Test
 <br />
 <h3><a name="CreateAndTestNHibernateMappingByCode"></a>Create and test NHibernate mapping by code</h3>
 You can create the NHibernate mapping for your domain models in different ways. In this example i use NHibernate mapping by code.<br />
-<pre class="prettyprint">using NHibernate.GettingStarted.Model;
+<pre class="prettyprint lang-cs">using NHibernate.GettingStarted.Model;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
@@ -121,7 +121,7 @@ namespace NHibernate.GettingStarted.Dao
 </pre>
 To see the result of the mapping we create this unit test.<br />
 The test output is the traditional xml NHibernate mapping.
-<pre class="prettyprint">using System;
+<pre class="prettyprint lang-cs">using System;
 using System.Xml.Serialization;
 using NHibernate.GettingStarted.Dao;
 using NHibernate.Mapping.ByCode;
@@ -162,7 +162,7 @@ Test output:
 <br />
 <h3><a name="ConfigureNHibernateForSQLite"></a>Configure NHibernate for SQLite</h3>
 To configure NHibernate we need to create a "nhibernate.cfg.xml" file and set the Copy to Output Directory to "Copy Always".
-<pre class="prettyprint">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+<pre class="prettyprint lang-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;hibernate-configuration xmlns="urn:nhibernate-configuration-2.2"&gt;
 &nbsp; &lt;session-factory name="NHibernate.Test"&gt;
 &nbsp; &nbsp; &lt;property name="connection.driver_class"&gt;NHibernate.Driver.SQLite20Driver&lt;/property&gt;
@@ -174,7 +174,7 @@ To configure NHibernate we need to create a "nhibernate.cfg.xml" file and set th
 </pre>
 <h3><a name="CreateAndTestANHibernateHelper"></a>Create and test a NHibernate helper</h3>
 Now we create a NHibernate helper class to load the configuration and the mapping to create sessions.<br />
-<pre class="prettyprint">using System.Collections.Generic;
+<pre class="prettyprint lang-cs">using System.Collections.Generic;
 using NHibernate.Cfg;
 using NHibernate.Cfg.MappingSchema;
 using NHibernate.Mapping.ByCode;
@@ -255,7 +255,7 @@ namespace NHibernate.GettingStarted.Dao
 }</pre>
 <br />
 Database schema test<br />
-<pre class="prettyprint">using System;
+<pre class="prettyprint lang-cs">using System;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;
 
@@ -285,7 +285,7 @@ Test output:
 <h3><a name="CreateAndTestARepository"></a>Create and test a Repository</h3>
 With the NHibernateHelper we can create a person repository to save, get, update and delete persons to the SQLite database.</br>
 First we create a repository interface.<br />
-<pre class="prettyprint">using System;
+<pre class="prettyprint lang-cs">using System;
 
 namespace NHibernate.GettingStarted.Model
 {
@@ -327,7 +327,7 @@ namespace NHibernate.GettingStarted.Model
 
 Repository class
 <br />
-<pre class="prettyprint">using System;
+<pre class="prettyprint lang-cs">using System;
 using NHibernate.GettingStarted.Model;
 
 namespace NHibernate.GettingStarted.Dao
@@ -382,7 +382,7 @@ namespace NHibernate.GettingStarted.Dao
 </pre>
 Repository test
 <br />
-<pre class="prettyprint">using System.IO;
+<pre class="prettyprint lang-cs">using System.IO;
 using NHibernate.GettingStarted.Model;
 using NHibernate.Tool.hbm2ddl;
 using NUnit.Framework;

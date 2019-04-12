@@ -10,7 +10,7 @@ namespace NHibernate.GettingStarted.Model
 
         public virtual string GetFullName()
         {
-            return string.Format("{0} {1}", FirstName, LastName);
+            return $"{FirstName} {LastName}";
         }
     }
 }

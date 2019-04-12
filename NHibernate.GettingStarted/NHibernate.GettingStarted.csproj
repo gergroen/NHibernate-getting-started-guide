@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
     <AssemblyTitle>NHibernate.GettingStarted</AssemblyTitle>
     <Product>NHibernate.GettingStarted</Product>
     <Copyright>Copyright ©  2011</Copyright>
@@ -21,11 +21,12 @@
   <ItemGroup>
     <PackageReference Include="Antlr3.Runtime" Version="3.5.1" />
     <PackageReference Include="Iesi.Collections" Version="4.0.4" />
-    <PackageReference Include="NHibernate" Version="5.1.3" />
-    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NHibernate" Version="5.2.5" />
+    <PackageReference Include="NUnit" Version="3.11.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
     <PackageReference Include="Remotion.Linq" Version="2.2.0" />
     <PackageReference Include="Remotion.Linq.EagerFetching" Version="2.2.0" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.109.1" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.110" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />

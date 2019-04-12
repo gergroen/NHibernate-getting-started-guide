@@ -41,16 +41,6 @@ namespace NHibernate.GettingStarted.Dao
             }
         }
 
-        public void Add<T>(T entity)
-        {
-            using (ISession session = NHibernateHelper.OpenSession())
-            using (ITransaction transaction = session.BeginTransaction())
-            {
-                session.Save(entity);
-                transaction.Commit();
-            }
-        }
-
         public long RowCount()
         {
             using (ISession session = NHibernateHelper.OpenSession())

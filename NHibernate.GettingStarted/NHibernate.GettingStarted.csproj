@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <AssemblyTitle>NHibernate.GettingStarted</AssemblyTitle>
     <Product>NHibernate.GettingStarted</Product>
     <Copyright>Copyright ©  2011</Copyright>

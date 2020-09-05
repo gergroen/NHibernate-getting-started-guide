@@ -17,6 +17,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
+    <OutputType>Library</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Antlr3.Runtime" Version="3.5.1" />

@@ -1,6 +1,7 @@
 This project is the source code of blog post http://gergroen.blogspot.com/2011/11/nhibernate-getting-started-guide.html
 
 How to use NHibernate with:
+ - .NET Core 3.1
  - NuGet
  - NUnit
  - SQLite
